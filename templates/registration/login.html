@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>logoipsum</title>
+    <link rel="stylesheet" href="{% static 'adminlogin.css'%}">
+</head>
+<body>
+<div id="login-page">
+  <div class="background">
+  </div>
+  <div class="login">
+    <h2 class="login-title">Logoipsum</h2>
+    {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+    <form class="form-login" action="/login/" method="POST">{% csrf_token%}
+      <label for="username">Username</label>
+      <div class="input-email">
+        <i class="fas fa-envelope icon"></i>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+      </div>
+      <label for="password">Password</label>
+      <div class="input-password">
+        <i class="fas fa-lock icon"></i>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit"><i class="fas fa-door-open"></i> Login</button>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>
+
