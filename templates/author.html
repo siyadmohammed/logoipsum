@@ -94,7 +94,6 @@
                             <form class="app-search position-absolute" action="/author/" method="GET">
                                 <input type="text" class="form-control" id="search" name="search"  placeholder="Search Author &amp; enter">
                                 <a class="srh-btn"><i class="mdi mdi-window-close"></i></a>
-                                <input type="submit"  name="search" value="search">
                             </form>
                         </li>
                     </ul>
@@ -210,11 +209,11 @@
                                         <tbody>
                                         {% for b in product%}
                                              <tr>
-                                                 <td>{{ forloop.counter}}</td>
+                                                 <td>{{b.SERIAL_NO}}</td>
                                                  <td>{{b.AUTHOR_NAME}}</td>
                                                  <td>{{b.USER_NAME}}</td>
                                                  <td>{{b.EMAIL}}</td>
-                                                 <td><a href="/authorview/{{b.id}}">View</a></td>
+                                                 <td><a href="/authorview/{{b.AUTHOR_NAME}}/{{b.SERIAL_NO}}">View</a></td>
                                              </tr>
                                             {% endfor%}
                                         </tbody>
@@ -269,20 +268,21 @@
     <!--Custom JavaScript -->
     <script src="{% static 'dist/js/custom.js'%}"></script>
     <!--This page JavaScript -->
-                    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    </div>
+            </div>
+        </div>
+
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script>
   // for giving suggestions in search box by calling an API
   $(function () {
     $("#search").autocomplete({
       source: "/suggestionapi/",
-      minLength: 2
     });
   });
 </script>
-    </div>
-            </div>
         </div>
-    </div>
 </body>
 </html>

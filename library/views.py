@@ -15,7 +15,7 @@ PRODUCTS_PER_PAGE = 5
 
 # Create your views here.
 def index(request):
-    return render(request, 'registration/login.html')
+    return render(request, 'registration/index.html')
 
 
 def login_view(request):
@@ -30,7 +30,7 @@ def login_view(request):
         else:
             messages.error(request, 'Invalid credentials. Please try again.')
 
-    return render(request, 'registration/login.html')
+    return render(request, 'registration/index.html')
 
 
 def logout_view(request):
@@ -66,14 +66,19 @@ def author(request):
 
 class ListProducts1(ListView):
     template_name = "books.html"
-    model = author1
-    context_object_name = "product1"
+    model = book1
+    context_object_name = "product"
     paginate_by = 2
 
 
 def books(request):
+    search = request.GET.get('search', "")
+    if search:
+        product = book1.objects.filter(Q(BOOK_NAME__icontains=search) | Q(AUTHOR_NAME__icontains=search))
+    else:
+        product = book1.objects.all()
+
     page = request.GET.get('page', 1)
-    product = book1.objects.all()
     product_paginator = Paginator(product, PRODUCTS_PER_PAGE)
     try:
         product = product_paginator.page(page)
@@ -119,8 +124,10 @@ def editbook(request, id):
     return render(request, "editphonedata.html", {'h': h})
 
 
-def viewauthorfull(request):
-    return render(request, 'authordetailedview.html')
+def viewauthorfull(request,author,id):
+    p = book1.objects.filter(AUTHOR_NAME=author)
+    q = author1.objects.get(SERIAL_NO=id)
+    return render(request, 'authordetailedview.html',{'p':p,'q':q})
 
 
 def deletebook(request, id):
@@ -130,21 +137,30 @@ def deletebook(request, id):
 
 
 def suggestionApi(request):
-    if 'term' in request.GET:
-        search = request.GET.get('term')
-        qs = author1.objects.filter(Q(AUTHOR_NAME__icontains=search))[0:10]
-        titles = list()
-        for product in qs:
-            titles.append(product.AUTHOR_NAME)
-        if len(qs) < 10:
-            length = 10 - len(qs)
-            qs2 = author1.objects.filter(Q(USER_NAME__icontains=search))[0:length]
-            for product in qs2:
-                titles.append(product.USER_NAME)
-        return JsonResponse(titles, safe=False)
+    query = request.GET.get('term', '')
+    results = author1.objects.filter(AUTHOR_NAME__icontains=query).values_list('AUTHOR_NAME', flat=True)
+    data = list(results)
+    print(data)
+    return JsonResponse(data, safe=False)
+
+
 
 
 def listProductsApi(request):
     result = list(author1.objects.values())
     return render(request, "author.html", {"product": result})
 
+
+def suggestionApi1(request):
+    query = request.GET.get('term', '')
+    results = book1.objects.filter(BOOK_NAME__icontains=query).values_list('BOOK_NAME', flat=True)
+    data = list(results)
+    print(data)
+    return JsonResponse(data, safe=False)
+
+
+
+
+def listProductsApi1(request):
+    result = list(book1.objects.values())
+    return render(request, "book.html", {"product": result})

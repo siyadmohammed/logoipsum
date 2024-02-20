@@ -81,8 +81,14 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
+
         <div class="page-wrapper">
             <div class="page-breadcrumb">
+                 <div>
+                            <h5 style="line-height:px; letter-spacing: 2px;">Author Name : {{q.AUTHOR_NAME}}</h5>
+                           <h5 style="line-height:20px; letter-spacing: 2px;">Author Username : {{q.USER_NAME}}</h5>
+                           <h5 style="line-height:20px; letter-spacing: 2px;">Author Email : {{q.EMAIL}}</h5>
+                         </div>
                 <div class="row align-items-center">
                     <div class="col-12">
                         <div class="text-end upgrade-btn">
@@ -105,12 +111,6 @@
             <div class="mb-3 mt-3">
                <label for="username">User Name</label>
                <input type="text" class="form-control form-control-lg" id="username" name="authorusername" required>
-               <div class="invalid-feedback">Please fill out this field.</div>
-            </div>
-
-            <div class="mb-3 mt-3">
-               <label for="email">Email</label>
-               <input type="email" class="form-control form-control-lg" id="email" name="authoremail" required>
                <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="modal-footer">
@@ -146,7 +146,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {% for c in g%}
+                                        {% for c in p%}
                                              <tr>
                                                  <td>{{ forloop.counter}}</td>
                                                  <td>{{c.BOOK_ID}}</td>
