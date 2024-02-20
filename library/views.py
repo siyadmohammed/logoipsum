@@ -15,7 +15,7 @@ PRODUCTS_PER_PAGE = 5
 
 # Create your views here.
 def index(request):
-    return render(request, 'registration/index.html')
+    return render(request, 'index.html')
 
 
 def login_view(request):
@@ -30,7 +30,7 @@ def login_view(request):
         else:
             messages.error(request, 'Invalid credentials. Please try again.')
 
-    return render(request, 'registration/index.html')
+    return render(request, 'index.html')
 
 
 def logout_view(request):
